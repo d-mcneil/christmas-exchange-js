@@ -2,6 +2,12 @@ import { shuffle } from "lodash";
 import { CANNOT_MATCH_LISTS } from "./cannotMatch";
 import { PARTICIPANTS, FAMILY_NAME, PARTICIPANT_NOTIFICATION_EMAILS } from "./participants";
 
+const IS_DEBUGGING = true;
+
+const print = (str: string) => {
+  if (IS_DEBUGGING) console.log(str);
+};
+
 const numberParticipants = PARTICIPANTS.length;
 const unsuccessfulDrawsLimit = 5;
 const unsuccessfulRoundsLimit = 10;
@@ -26,7 +32,7 @@ const drawNames = () => {
     const giver = givers[matches];
     const receiver = receivers[matches];
     if (giver === receiver) {
-      console.log(`***${giver} drew themself, which is not allowed.`);
+      print(`***${giver} drew themself, which is not allowed.`);
       rotateToBack(matches);
       unsuccessfulDraws++;
       continue;
@@ -34,7 +40,7 @@ const drawNames = () => {
     try {
       for (const list of CANNOT_MATCH_LISTS)
         if (list.includes(giver) && list.includes(receiver)) {
-          console.log(`***${giver} drew ${receiver}, which is not allowed.`);
+          print(`***${giver} drew ${receiver}, which is not allowed.`);
           rotateToBack(matches);
           unsuccessfulDraws++;
           throw new Error();
@@ -42,7 +48,7 @@ const drawNames = () => {
     } catch (error) {
       continue;
     }
-    console.log(`${giver} drew ${receiver}.`);
+    print(`${giver} drew ${receiver}.`);
     matches++;
     if (matches === numberParticipants) {
       wasDrawingSuccessful = true;
@@ -53,20 +59,20 @@ const drawNames = () => {
 
 while (!wasDrawingSuccessful) {
   drawingRound++;
-  console.log(`\n\n\n${FAMILY_NAME} Gift Exchange - Christmas ${new Date().getFullYear()}\n\nRound ${drawingRound} - Proceedings:\n`);
+  print(`\n\n\n${FAMILY_NAME} Gift Exchange - Christmas ${new Date().getFullYear()}\n\nRound ${drawingRound} - Proceedings:\n`);
   drawNames();
   if (!wasDrawingSuccessful) {
     if (drawingRound === unsuccessfulRoundsLimit) {
-      console.log("\nThe maximum number of invalid drawings and unsuccessful rounds was reached, so proceedings will be terminated. Please use less restrictive filters for matchmaking and try again.");
+      print("\nThe maximum number of invalid drawings and unsuccessful rounds was reached, so proceedings will be terminated. Please use less restrictive filters for matchmaking and try again.");
       break;
     }
-    console.log("\nThe maximum number of invalid drawings was reached, so proceedings will be restarted.");
+    print("\nThe maximum number of invalid drawings was reached, so proceedings will be restarted.");
     ({ givers, receivers } = shuffleParticipants());
     continue;
   }
-  console.log(`\nRound ${drawingRound} - Results:\n`);
-  for (let i = 0; i < numberParticipants; i++) console.log(`${givers[i]} drew ${receivers[i]}.`);
-  console.log("\n\nMerry Christmas! See you next year!\n");
+  print(`\nRound ${drawingRound} - Results:\n`);
+  for (let i = 0; i < numberParticipants; i++) print(`${givers[i]} drew ${receivers[i]}.`);
+  print("\n\nMerry Christmas! See you next year!\n");
   break;
 }
 
