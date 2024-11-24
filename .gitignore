@@ -1,1 +1,4 @@
 node_modules/
+participants.ts
+.vscode/
+cannotMatch.ts
