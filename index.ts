@@ -1,10 +1,10 @@
 import { shuffle } from "lodash";
 import { CANNOT_MATCH_LISTS } from "./cannotMatch";
-import { PARTICIPANTS, FAMILY_NAME } from "./participants";
+import { PARTICIPANTS, FAMILY_NAME, PARTICIPANT_NOTIFICATION_EMAILS } from "./participants";
 
 const numberParticipants = PARTICIPANTS.length;
 const unsuccessfulDrawsLimit = 5;
-const unsuccessfulRoundsLimit = 100;
+const unsuccessfulRoundsLimit = 10;
 let drawingRound = 0;
 let wasDrawingSuccessful = false;
 
