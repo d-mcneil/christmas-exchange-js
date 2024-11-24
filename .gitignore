@@ -1,5 +1,6 @@
 .vscode/
 node_modules/
+log/
 participants.ts
 cannotMatch.ts
 credentials.ts

@@ -69,3 +69,8 @@ while (!wasDrawingSuccessful) {
   console.log("\n\nMerry Christmas! See you next year!\n");
   break;
 }
+
+if (wasDrawingSuccessful) {
+  // TODO: Send emails to participants with their matches.
+  // TODO: Log the results of the drawing to a file instead of the console.
+}
