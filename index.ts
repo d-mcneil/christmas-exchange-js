@@ -1,6 +1,8 @@
 import { shuffle } from "lodash";
 import { CANNOT_MATCH_LISTS } from "./cannotMatch";
-import { PARTICIPANTS, FAMILY_NAME, PARTICIPANT_NOTIFICATION_EMAILS } from "./participants";
+import { PARTICIPANTS, FAMILY_NAME, PARTICIPANT_NOTIFICATION_EMAILS, WISH_LISTS } from "./participants";
+import { sendEmail } from "./sendEmail";
+import fs from "fs/promises";
 
 const IS_DEBUGGING = false;
 
@@ -83,8 +85,26 @@ while (!wasDrawingSuccessful) {
 if (IS_DEBUGGING || !wasDrawingSuccessful) console.log(proceedings);
 else {
   console.log("\nDrawing successful!");
-  // TODO: Log the results of the drawing to a file instead of the console.
-  console.log("results logged to file"); // TODO: improve this message
-  // TODO: Send emails to participants with their matches.
-  // TODO: test email sending, make sure I KNOW!! if an email wasn't sent out
+  const logFilePath = `./log/${String(new Date().getFullYear())}-${String(Date.now())}.txt`;
+  fs.writeFile(logFilePath, proceedings)
+    .then(() => {
+      console.log(`Results successfully logged to file!\nFile name: ${logFilePath}`);
+      for (let i = 0; i < numberParticipants; i++) {
+        const to_name = givers[i];
+        const gift_recipient = receivers[i];
+        const email = PARTICIPANT_NOTIFICATION_EMAILS[to_name];
+        const wish_list = WISH_LISTS[gift_recipient];
+        const emailParams = {
+          email,
+          to_name,
+          gift_recipient,
+          wish_list,
+        };
+        sendEmail(emailParams);
+      }
+    })
+    .catch((error) => {
+      console.log("Error writing to file: ", error);
+      console.log("No emails were sent.");
+    });
 }

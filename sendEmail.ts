@@ -6,6 +6,7 @@ interface EmailBody {
   email: string;
   to_name: string;
   gift_recipient: string;
+  wish_list: string;
 }
 
 const sendEmail = (emailParams: EmailBody) =>
