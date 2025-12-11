@@ -23,8 +23,9 @@ const sendEmail = (emailParams: EmailBody) =>
       accessToken: PRIVATE_KEY,
     }),
   })
-    .then(() => {
+    .then((response) => {
       console.log(`Email sent successfully to ${emailParams.to_name}.`);
+      // console.log(response);
     })
     .catch(() => {
       console.log(`Email failed to send to ${emailParams.to_name}!!!!!!!!!!!!!!!!!!!!`);
