@@ -103,7 +103,7 @@ else {
         sendEmail(emailParams);
       }
     })
-    .catch((error) => {
+    .catch((error: unknown) => {
       console.log("Error writing to file: ", error);
       console.log("No emails were sent.");
     });
