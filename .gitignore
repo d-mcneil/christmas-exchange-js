@@ -1,9 +1,10 @@
 .vscode/
 node_modules/
-log/
+package-lock.json
+pnpm-lock.yaml
+log/*
+!log/.gitkeep
 participants.ts
 cannotMatch.ts
 credentials.ts
 testSendEmail.ts
-package-lock.json
-pnpm-lock.yaml
